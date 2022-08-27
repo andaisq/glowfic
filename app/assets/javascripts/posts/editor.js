@@ -389,6 +389,7 @@ function setAliasFromID(selectedAliasID, selectedCharID) {
   $("#reply_character_alias_id").val(selectedAliasID);
 }
 
+ // eslint-disable-next-line complexity
 function setGalleriesAndDefault(galleries, defaultIcon) {
   shownIcons = [];
 
