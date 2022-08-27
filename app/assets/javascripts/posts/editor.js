@@ -354,10 +354,7 @@ function setInfoBoxFields(characterId, name, screenname) {
     spacer.show();
     characterNameBox.hide();
   }
-  characterNameBox.data('character-id', characterId);
-  var nameNode = $("<a>").attr("href", "/characters/"+characterId).text(name);
-  $("#post-editor .post-character #name").html(nameNode);
-  
+  characterNameBox.data('character-id', characterId); 
 
   var screennameBox = $("#post-editor .post-screenname");
   if (screenname) {
