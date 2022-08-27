@@ -152,7 +152,8 @@ function setupWritableEditor() {
     // Set the ID
     var id = $(this).val();
     $("#reply_character_alias_id").val(id);
-    $("#post-editor .post-character #name").html($('#character_alias option:selected').text());
+    var correctID = $("input#reply_character_id")[0].value
+    $("#post-editor .post-character #name").html(`<a href="/characters/${correctID}">${$('#character_alias option:selected').text()}</a>`);
     $('#alias-selector').hide();
     $("#post-editor .post-character").data('alias-id', id);
   });
@@ -353,7 +354,7 @@ function setInfoBoxFields(characterId, name, screenname) {
     characterNameBox.hide();
   }
   characterNameBox.data('character-id', characterId);
-  $("#post-editor .post-character #name").html(name);
+  $("#post-editor .post-character #name").html(`<a href="/characters/${characterId}"${name}</a>`);
 
   var screennameBox = $("#post-editor .post-screenname");
   if (screenname) {
@@ -381,7 +382,8 @@ function setAliases(aliases, name) {
 
 function setAliasFromID(selectedAliasID) {
   var correctName = $("#character_alias option[value=\""+selectedAliasID+"\"]").text();
-  $("#post-editor .post-character #name").html(correctName);
+  var correctID = $("input#reply_character_id")[0].value
+  $("#post-editor .post-character #name").html(`<a href="/characters/${correctID}">${correctName}</a>`);
   $("#post-editor .post-character").data('alias-id', selectedAliasID);
   $("#character_alias").val(selectedAliasID).trigger("change.select2");
   $("#reply_character_alias_id").val(selectedAliasID);
