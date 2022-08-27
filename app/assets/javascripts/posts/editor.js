@@ -153,7 +153,8 @@ function setupWritableEditor() {
     var id = $(this).val();
     $("#reply_character_alias_id").val(id);
     var correctID = $("input#reply_character_id").val()
-    $("#post-editor .post-character #name").html(`<a href="/characters/${correctID}">${$('#character_alias option:selected').text()}</a>`);
+    var nameNode = $("<a>").attr("href", "/characters/"+correctID).text($('#character_alias option:selected').text());
+    $("#post-editor .post-character #name").html(nameNode);
     $('#alias-selector').hide();
     $("#post-editor .post-character").data('alias-id', id);
   });
@@ -328,7 +329,7 @@ function setFormData(characterId, resp, options) {
   setInfoBoxFields(characterId, resp.name, resp.screenname);
 
   setAliases(resp.aliases, resp.name);
-  setAliasFromID('');
+  setAliasFromID('', characterId);
   if (restoreAlias)
     setAliasFromID(selectedAliasID, characterId);
   else if (resp.alias_id_for_post)
@@ -354,7 +355,9 @@ function setInfoBoxFields(characterId, name, screenname) {
     characterNameBox.hide();
   }
   characterNameBox.data('character-id', characterId);
-  $("#post-editor .post-character #name").html(`<a href="/characters/${characterId}"${name}</a>`);
+  var nameNode = $("<a>").attr("href", "/characters/"+characterId).text(name);
+  $("#post-editor .post-character #name").html(nameNode);
+  
 
   var screennameBox = $("#post-editor .post-screenname");
   if (screenname) {
@@ -382,7 +385,8 @@ function setAliases(aliases, name) {
 
 function setAliasFromID(selectedAliasID, selectedCharID) {
   var correctName = $("#character_alias option[value=\""+selectedAliasID+"\"]").text();
-  $("#post-editor .post-character #name").html(`<a href="/characters/${selectedCharID}">${correctName}</a>`);
+  var nameNode = $("<a>").attr("href", "/characters/"+selectedCharID).text(correctName);
+  $("#post-editor .post-character #name").html(nameNode);
   $("#post-editor .post-character").data('alias-id', selectedAliasID);
   $("#character_alias").val(selectedAliasID).trigger("change.select2");
   $("#reply_character_alias_id").val(selectedAliasID);
