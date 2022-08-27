@@ -152,7 +152,7 @@ function setupWritableEditor() {
     // Set the ID
     var id = $(this).val();
     $("#reply_character_alias_id").val(id);
-    var correctID = $("input#reply_character_id")[0].value
+    var correctID = $("input#reply_character_id").val()
     $("#post-editor .post-character #name").html(`<a href="/characters/${correctID}">${$('#character_alias option:selected').text()}</a>`);
     $('#alias-selector').hide();
     $("#post-editor .post-character").data('alias-id', id);
@@ -208,7 +208,7 @@ function fixWritableFormCaching() {
       setIconFromId(selectedIconID); // Handle the case where just the icon was cached
     }
     if (selectedAliasID !== displayAliasID) {
-      setAliasFromID(selectedAliasID);
+      setAliasFromID(selectedAliasID, selectedCharID);
     }
   } else {
     getAndSetCharacterData(selectedCharID, {restore_icon: true, restore_alias: true});
@@ -330,9 +330,9 @@ function setFormData(characterId, resp, options) {
   setAliases(resp.aliases, resp.name);
   setAliasFromID('');
   if (restoreAlias)
-    setAliasFromID(selectedAliasID);
+    setAliasFromID(selectedAliasID, characterId);
   else if (resp.alias_id_for_post)
-    setAliasFromID(resp.alias_id_for_post);
+    setAliasFromID(resp.alias_id_for_post, characterId);
 
   setGalleriesAndDefault(resp.galleries, resp.default_icon);
   setIcon('');
@@ -380,10 +380,9 @@ function setAliases(aliases, name) {
   }
 }
 
-function setAliasFromID(selectedAliasID) {
+function setAliasFromID(selectedAliasID, selectedCharID) {
   var correctName = $("#character_alias option[value=\""+selectedAliasID+"\"]").text();
-  var correctID = $("input#reply_character_id")[0].value
-  $("#post-editor .post-character #name").html(`<a href="/characters/${correctID}">${correctName}</a>`);
+  $("#post-editor .post-character #name").html(`<a href="/characters/${selectedCharID}">${correctName}</a>`);
   $("#post-editor .post-character").data('alias-id', selectedAliasID);
   $("#character_alias").val(selectedAliasID).trigger("change.select2");
   $("#reply_character_alias_id").val(selectedAliasID);
